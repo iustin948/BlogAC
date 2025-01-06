@@ -16,6 +16,6 @@ public class ArticleEntity {
     private String content;
     private LocalDateTime postedDate = LocalDateTime.now();
 
-    @JoinColumn(name = "category_id")
+    @OneToOne
     private CategoryEntity category;
 }
