@@ -1,6 +1,7 @@
 package blog.AC.domain.entities;
 
 import jakarta.persistence.*;
+import jdk.jfr.Category;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +24,6 @@ public class UserEntity {
     private String email;
     private String phoneNumber;
     private Date registrationDate;
-    private String role;
     private boolean enabled;
 
     @ManyToMany
@@ -34,4 +34,12 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<RoleEntity> roles;
+
+    @ManyToMany
+    @JoinTable(
+            name = "staff_categories",
+            joinColumns = @JoinColumn(name = "staff_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
+    )
+    private Collection<CategoryEntity> categories;
 }

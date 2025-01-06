@@ -59,14 +59,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeRole(String email,String role) {
-        Optional<UserEntity> user = userRepository.findByEmail(email);
-        if(user.isPresent())
-        {
-            UserEntity _user = user.get();
-            _user.setRole(role);;
-        }
+    public void changeRole(String email, String role) {
+
     }
+
 
     @Override
     public UserEntity save(UserEntity userEntity) {

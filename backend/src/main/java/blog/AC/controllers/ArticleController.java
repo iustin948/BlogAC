@@ -5,6 +5,7 @@ import blog.AC.domain.entities.ArticleEntity;
 import blog.AC.services.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,14 +20,10 @@ public class ArticleController {
     }
 
     @PostMapping()
-
+    @PreAuthorize("hasRole('STAFF')")
     public ResponseEntity<ArticleEntity> addArticle(@RequestBody ArticleDto dto)
     {
-        ArticleEntity entity = new ArticleEntity();
-        entity.setTitle(dto.getTitle());
-        entity.setContent(dto.getContent());
-        //entity.setCategory(dto.getCategory());
-        return new ResponseEntity<>(articleService.addArticle(entity), HttpStatus.OK) ;
+        return new ResponseEntity<>(articleService.addArticle(dto), HttpStatus.OK) ;
     }
 
     @PatchMapping

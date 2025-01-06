@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PrivilegeRepository extends JpaRepository<PrivilegeEntity,Long> {
-    PrivilegeEntity findByName(String name);
+    public PrivilegeEntity findByName(String name);
 }
