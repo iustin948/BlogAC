@@ -23,7 +23,7 @@ public class ArticleController {
     @PreAuthorize("hasRole('STAFF')")
     public ResponseEntity<ArticleEntity> addArticle(@RequestBody ArticleDto dto)
     {
-        return new ResponseEntity<>(articleService.addArticle(dto), HttpStatus.OK) ;
+        return new ResponseEntity<>(articleService.addArticle(dto), HttpStatus.OK);
     }
 
     @PatchMapping
