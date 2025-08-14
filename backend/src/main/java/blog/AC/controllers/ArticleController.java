@@ -26,10 +26,10 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.addArticle(dto), HttpStatus.OK);
     }
 
-    @PatchMapping
-    public ResponseEntity<ArticleDto> patchArticle(ArticleDto Dto)
+    @PatchMapping("/{articleId}")
+    public ResponseEntity<ArticleDto> patchArticle(@RequestParam Long articleId,@RequestBody ArticleDto dto)
     {
-        return null;
+        return new ResponseEntity<>(articleService.modifyArticle(articleId, dto), HttpStatus.OK);
     }
 
     @DeleteMapping

@@ -48,7 +48,17 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public ArticleEntity modifyArticle(ArticleEntity entity) {
-        return null;
+    public ArticleDto modifyArticle(Long id, ArticleDto dto) {
+        ArticleEntity article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+        article.setTitle(dto.getTitle());
+        article.setContent(dto.getContent());
+
+        ArticleEntity savedArticle =  articleRepository.save(article);
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setTitle(savedArticle.getTitle());
+        articleDto.setContent(savedArticle.getContent());
+        return articleDto;
     }
 }
