@@ -61,4 +61,23 @@ public class ArticleServiceImpl implements ArticleService {
         articleDto.setContent(savedArticle.getContent());
         return articleDto;
     }
+
+        @Override
+        public ArticleDto getArticle(Long id) {
+            ArticleEntity article = articleRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Article not found"));
+
+            ArticleDto articleDto = new ArticleDto();
+            articleDto.setTitle(article.getTitle());
+            articleDto.setContent(article.getContent());
+            return articleDto;
+        }
+
+
+    @Override
+    public ArticleDto getArticles(String user, String category, int page, int limit) {
+        // Implement the logic to retrieve articles based on user, category, pagination
+        // For now, we can return an empty ArticleDto or throw an exception
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
 }
