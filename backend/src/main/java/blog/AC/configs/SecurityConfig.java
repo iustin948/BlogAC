@@ -58,6 +58,7 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PATCH, "/staff/accept/**").authenticated()
+                                .requestMatchers( "/categories/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
 
