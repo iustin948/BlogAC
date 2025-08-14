@@ -45,13 +45,22 @@ public class SecurityConfig {
                 .sessionManagement(customizer->customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests((requests) ->
-
-                        requests.requestMatchers(HttpMethod.POST,"/login","/register","staff/form").permitAll()
+                        requests
+                                .requestMatchers(HttpMethod.POST,
+                                        "/login",
+                                        "/register",
+                                        "staff/form"
+                                ).permitAll()
+                                .requestMatchers(
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html"
+                                ).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
-
+                                .requestMatchers(HttpMethod.PATCH, "/staff/accept/**").authenticated()
                                 .anyRequest().authenticated()
-
                 );
+
 
         return http.build();
     }

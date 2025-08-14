@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleResult;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -44,12 +45,16 @@ public class StaffManagementServiceImpl implements StaffManagementService {
     }
 
     @Override
-    public UserDto ConfirmStaff(AdminReqDto dto)
+    public UserDto ConfirmStaff(Long id)
     {
-        UserEntity user = userRepository.findByEmail(dto.getEmail())
+        Optional<AdminReqEntity> optional =  adminReqRepository.findById(id);
+        if(optional.isEmpty())
+            throw new RuntimeException("Request not found");
+        AdminReqEntity adminReqEntity = optional.get();
+        UserEntity user = userRepository.findByEmail(adminReqEntity.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        CategoryEntity category = categoryRepository.findByName(dto.getCategory());
+        CategoryEntity category = categoryRepository.findByName(adminReqEntity.getCategory());
         RoleEntity role  = roleRepository.findByName("ROLE_STAFF");
 
         user.getRoles().add(role);

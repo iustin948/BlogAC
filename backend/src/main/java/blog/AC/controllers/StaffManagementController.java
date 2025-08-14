@@ -36,12 +36,12 @@ public class StaffManagementController {
     }
 
 
-    @PatchMapping("/accept")
+    @PatchMapping("/accept/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserDto> acceptRequest(@RequestBody AdminReqDto dto)
+    public ResponseEntity<UserDto> acceptRequest(@PathVariable Long id)
     {
-        UserDto user = staffManagementService.ConfirmStaff(dto);
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        UserDto user = staffManagementService.ConfirmStaff(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 

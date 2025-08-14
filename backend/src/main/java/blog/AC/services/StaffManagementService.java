@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public interface StaffManagementService {
 
     public AdminReqDto submitForm(AdminReqDto dto);
-    public UserDto ConfirmStaff(AdminReqDto dto);
+    public UserDto ConfirmStaff(Long id);
 
 }
