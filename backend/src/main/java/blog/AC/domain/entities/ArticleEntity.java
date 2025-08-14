@@ -16,6 +16,8 @@ public class ArticleEntity {
     private String content;
     private LocalDateTime postedDate = LocalDateTime.now();
 
+    @ManyToOne
+    private UserEntity author;
     @OneToOne
     private CategoryEntity category;
 }

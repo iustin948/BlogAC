@@ -2,6 +2,7 @@ package blog.AC.services;
 
 import blog.AC.domain.dto.ArticleDto;
 import blog.AC.domain.entities.ArticleEntity;
+import org.springframework.data.domain.Page;
 
 public interface ArticleService {
     ArticleEntity addArticle(ArticleDto dto);
@@ -10,5 +11,5 @@ public interface ArticleService {
 
     ArticleDto getArticle(Long id);
 
-    ArticleDto getArticles(String user, String category, int page, int limit);
+    Page<ArticleDto> getArticles(String user, String category, int page, int limit);
 }

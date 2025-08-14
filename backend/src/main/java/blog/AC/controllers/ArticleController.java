@@ -3,6 +3,7 @@ package blog.AC.controllers;
 import blog.AC.domain.dto.ArticleDto;
 import blog.AC.domain.entities.ArticleEntity;
 import blog.AC.services.ArticleService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ public class ArticleController {
     }
 
     @PostMapping()
-    @PreAuthorize("hasRole('STAFF')")
+
     public ResponseEntity<ArticleEntity> addArticle(@RequestBody ArticleDto dto)
 
     {
@@ -43,14 +44,14 @@ public class ArticleController {
     }
 
     @GetMapping()
-        public ResponseEntity<List<ArticleDto>> getArticles(
+        public ResponseEntity<Page<ArticleDto>> getArticles(
                 @RequestParam(required = false) String user,
                 @RequestParam(required = false) String category,
                 @RequestParam(defaultValue = "0") int page,
                 @RequestParam(defaultValue = "10") int limit) {
             // Implement the logic in the service layer to handle these filters
-            //List<ArticleDto> articles = articleService.getArticles(user, category, page, limit);
-            return null;
+            return new ResponseEntity<>(articleService.getArticles(user, category, page, limit), HttpStatus.OK);
+
             //return new ResponseEntity<>(articles, HttpStatus.OK);
         }
 }

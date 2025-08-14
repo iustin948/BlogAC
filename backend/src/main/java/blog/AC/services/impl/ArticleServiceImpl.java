@@ -9,9 +9,15 @@ import blog.AC.repositories.UserRepository;
 import blog.AC.services.ArticleService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
@@ -75,9 +81,19 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public ArticleDto getArticles(String user, String category, int page, int limit) {
-        // Implement the logic to retrieve articles based on user, category, pagination
-        // For now, we can return an empty ArticleDto or throw an exception
-        throw new UnsupportedOperationException("Method not implemented yet");
+    public Page<ArticleDto> getArticles(String user, String category, int page, int limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        UserEntity userEntity = null;
+        if(user != null) userEntity = userRepository.findByEmail(user)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Page<ArticleEntity> articlesPage =
+                articleRepository.findByUserAndCategory(userEntity, category, pageable);
+
+        return articlesPage.map(article -> {
+            ArticleDto dto = new ArticleDto();
+            dto.setTitle(article.getTitle());
+            dto.setContent(article.getContent());
+            return dto;
+        });
     }
 }
