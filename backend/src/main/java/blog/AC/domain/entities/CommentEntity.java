@@ -1,15 +1,19 @@
 package blog.AC.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @ManyToOne
     private ArticleEntity article;
 
@@ -17,7 +21,7 @@ public class CommentEntity {
     private CommentEntity parent;
     private String content;
     private LocalDateTime createdAt;
-    private int userId;
+    private Long userId;
 
 
 }

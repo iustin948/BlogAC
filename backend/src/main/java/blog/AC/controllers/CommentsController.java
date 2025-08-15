@@ -1,12 +1,18 @@
 package blog.AC.controllers;
 
+import blog.AC.domain.dto.CommentDto;
+import blog.AC.services.CommentService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/articles/{articleId}/comments")
+@AllArgsConstructor
+@RequestMapping("/article/{articleId}/comments")
 public class CommentsController {
+
+    CommentService commentsService;
 
     @GetMapping
     public ResponseEntity<Void> getComments(@PathVariable Long articleId,
@@ -16,10 +22,12 @@ public class CommentsController {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @PostMapping
-    public ResponseEntity<Void> addComment(@PathVariable Long articleId) {
+    @PostMapping()
+    public ResponseEntity<CommentDto> addComment(@PathVariable Long articleId,
+                                                 @RequestBody String content) {
         // Business logic to be implemented in the service layer
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(commentsService.createComment(articleId, content), HttpStatus.CREATED);
+
     }
 
     @DeleteMapping("/{commentId}")

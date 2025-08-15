@@ -1,15 +1,20 @@
-package blog.AC.services;
+package blog.AC.services.impl;
 
+import blog.AC.domain.dto.UserDto;
 import blog.AC.domain.entities.PrivilegeEntity;
 import blog.AC.domain.entities.RoleEntity;
 import blog.AC.domain.entities.UserEntity;
 import blog.AC.repositories.RoleRepository;
 import blog.AC.repositories.UserRepository;
+import blog.AC.services.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -78,4 +83,12 @@ public class MyUserDetailsService implements UserDetailsService {
         }
         return authorities;
     }
+
+    public UserEntity getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userDetails.getUsername()));
+    }
+
 }
