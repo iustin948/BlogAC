@@ -86,9 +86,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
     public UserEntity getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userDetails.getUsername()));
+        UserDto userDto = (UserDto) authentication.getPrincipal();
+        return userRepository.findByEmail(userDto.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email:"));
     }
-
 }

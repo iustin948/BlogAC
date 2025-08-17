@@ -23,7 +23,7 @@ public class CommentMapperImpl implements Mapper<CommentEntity, CommentDto> {
                 commentEntity.getCreatedAt().toString(),
                 commentEntity.getUserId(),
                 commentEntity.getArticle().getId(),
-                commentEntity.getParent().getId()
+                commentEntity.getParent() != null ? commentEntity.getParent().getId() : null
         );
     }
 

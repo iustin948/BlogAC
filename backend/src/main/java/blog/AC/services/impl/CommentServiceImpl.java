@@ -1,13 +1,19 @@
 package blog.AC.services.impl;
 
+import blog.AC.domain.dto.ArticleDto;
 import blog.AC.domain.dto.CommentDto;
+import blog.AC.domain.entities.ArticleEntity;
 import blog.AC.domain.entities.CommentEntity;
+import blog.AC.domain.entities.UserEntity;
 import blog.AC.domain.mappers.impl.CommentMapperImpl;
 import blog.AC.repositories.ArticleRepository;
 import blog.AC.repositories.CommentRepository;
 import blog.AC.services.ArticleService;
 import blog.AC.services.CommentService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,18 +40,27 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> getComments(Long articleId, int page, int size) {
+    public Page<CommentDto> getComments(Long articleId, int page, int limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<CommentEntity> commentsPage = commentRepository.findByArticleId(articleId, pageable);
 
+        return commentsPage.map(comment -> commentMapper.mapTo(comment));
 
     }
 
+
     @Override
     public CommentDto updateComment(Long commentId, String updatedContent) {
-        return null;
+
+        CommentEntity commentEntity = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
+        commentEntity.setContent(updatedContent);
+        CommentEntity updatedComment = commentRepository.save(commentEntity);
+        return commentMapper.mapTo(updatedComment);
     }
 
     @Override
     public void deleteComment(Long commentId) {
-
+        commentRepository.deleteById(commentId);
     }
 }
