@@ -25,7 +25,7 @@ export class ArticleComponent implements OnInit {
     });
   }
 
-  like(): void {
+  /*like(): void {
     if (this.article) {
       this.articleService.likeArticle(this.article.id);
     }
@@ -37,5 +37,5 @@ export class ArticleComponent implements OnInit {
       this.articleService.addComment(this.article.id, comment);
       this.newComment = '';
     }
-  }
+  }*/
 }

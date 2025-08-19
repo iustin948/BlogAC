@@ -1,74 +1,44 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Article } from '../models/article';
-import { Comment } from '../models/comment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
-  private articles: Article[] = [
-    {
-      id: 1,
-      title: 'Getting Started with Angular',
-      content: 'This is a comprehensive guide to start your journey with Angular.',
-      author: 'John Doe',
-      date: '2025-08-15',
-      category: 'Programming',
-      likes: 15,
-      comments: [
-        { user: 'Alice', content: 'Great article!' },
-        { user: 'Bob', content: 'Very helpful, thanks!' }
-      ]
-    },
-    {
-      id: 2,
-      title: 'University Life Hacks',
-      content: 'A collection of tips and tricks to make your university life easier.',
-      author: 'Jane Smith',
-      date: '2025-08-16',
-      category: 'University',
-      likes: 30,
-      comments: []
-    },
-    {
-      id: 3,
-      title: 'The Future of AI',
-      content: 'An exploration of the future of Artificial Intelligence and its impact on society.',
-      author: 'Peter Jones',
-      date: '2025-08-17',
-      category: 'Technology',
-      likes: 50,
-      comments: [
-        { user: 'Charlie', content: 'Fascinating read.' }
-      ]
-    }
-  ];
+  private apiUrl = `${environment.apiUrl}/article`;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getArticles(category?: string): Observable<Article[]> {
-    if (category) {
-      return of(this.articles.filter(article => article.category === category));
-    }
-    return of(this.articles);
+  getArticles(user?: string, category?: string, page: number = 0, limit: number = 10): Observable<any> {
+    let params = new HttpParams().set('page', page).set('limit', limit);
+    if (user) params = params.set('user', user);
+    if (category) params = params.set('category', category);
+    return this.http.get<any>(this.apiUrl, { params });
   }
 
-  getArticle(id: number): Observable<Article | undefined> {
-    return of(this.articles.find(article => article.id === id));
+  getArticle(id: number): Observable<Article> {
+    // Assuming a GET endpoint for a single article exists, e.g., /article/{id}
+    return this.http.get<Article>(`${this.apiUrl}/${id}`);
   }
 
-  likeArticle(id: number): void {
-    const article = this.articles.find(article => article.id === id);
-    if (article) {
-      article.likes++;
-    }
+  addArticle(article: Partial<Article>): Observable<Article> {
+    return this.http.post<Article>(this.apiUrl, article);
   }
 
-  addComment(id: number, comment: Comment): void {
-    const article = this.articles.find(article => article.id === id);
-    if (article) {
-      article.comments.push(comment);
-    }
+  patchArticle(articleId: number, article: Partial<Article>): Observable<Article> {
+    // The backend expects PATCH /article/{articleId}?articleId=... with body
+    return this.http.patch<Article>(`${this.apiUrl}/${articleId}`, article, {
+      params: new HttpParams().set('articleId', articleId)
+    });
+  }
+
+  deleteArticle(articleId: number): Observable<void> {
+    // The backend expects DELETE /article/{articleId}?articleId=...
+    return this.http.delete<void>(`${this.apiUrl}/${articleId}`, {
+      params: new HttpParams().set('articleId', articleId)
+    });
   }
 }

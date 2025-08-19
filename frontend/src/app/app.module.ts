@@ -8,9 +8,12 @@ import { HomeComponent } from './components/home/home.component';
 import { ArticleComponent } from './components/article/article.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ArticleService } from './services/article.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
 
 @NgModule({
@@ -27,9 +30,17 @@ import { ArticleCardComponent } from './components/article-card/article-card.com
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [ArticleService],
+  providers: [
+    ArticleService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
