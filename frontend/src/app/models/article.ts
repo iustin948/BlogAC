@@ -1,12 +1,38 @@
-import { Comment } from './comment';
-
 export interface Article {
   id: number;
   title: string;
+  authorId: number;
+  authorName: string;
   content: string;
-  author: string;
-  date: string;
-  category: string;
-  likes: number;
-  comments: Comment[];
+  postedDate: string;
+  category: string | null;
+}
+
+export interface Sort {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+}
+
+export interface Pageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: Sort;
+  offset: number;
+  unpaged: boolean;
+  paged: boolean;
+}
+
+export interface PaginatedArticles {
+  content: Article[];
+  pageable: Pageable;
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  sort: Sort;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
 }

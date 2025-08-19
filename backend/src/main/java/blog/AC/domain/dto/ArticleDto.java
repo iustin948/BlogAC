@@ -11,4 +11,7 @@ public class ArticleDto {
     private String content;
     private LocalDateTime postedDate = LocalDateTime.now();
     private Long category;
+    private Long id;
+    private Long authorId;
+    private String authorName;
 }

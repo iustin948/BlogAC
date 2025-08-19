@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Article } from '../models/article';
+import { Article, PaginatedArticles } from '../models/article';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -12,11 +12,12 @@ export class ArticleService {
 
   constructor(private http: HttpClient) { }
 
-  getArticles(user?: string, category?: string, page: number = 0, limit: number = 10): Observable<any> {
-    let params = new HttpParams().set('page', page).set('limit', limit);
-    if (user) params = params.set('user', user);
-    if (category) params = params.set('category', category);
-    return this.http.get<any>(this.apiUrl, { params });
+  getArticles(category?: string, page: number = 0, limit: number = 10): Observable<PaginatedArticles> {
+    let params = new HttpParams().set('page', page.toString()).set('size', limit.toString());
+    if (category) {
+      params = params.set('category', category);
+    }
+    return this.http.get<PaginatedArticles>(`${this.apiUrl}`, { params });
   }
 
   getArticle(id: number): Observable<Article> {

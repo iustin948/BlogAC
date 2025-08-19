@@ -93,6 +93,9 @@ public class ArticleServiceImpl implements ArticleService {
             ArticleDto dto = new ArticleDto();
             dto.setTitle(article.getTitle());
             dto.setContent(article.getContent());
+            dto.setId(article.getId());
+            dto.setAuthorId(article.getAuthor().getId());
+            dto.setAuthorName(article.getAuthor().getFirstName() + " " + article.getAuthor().getLastName());
             return dto;
         });
     }

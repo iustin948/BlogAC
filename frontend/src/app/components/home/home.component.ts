@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const category = params.get('category');
-      this.articleService.getArticles(category || undefined).subscribe(articles => {
-        this.articles = articles;
+      this.articleService.getArticles(category || undefined).subscribe(response => {
+        this.articles = response.content;
       });
     });
   }
