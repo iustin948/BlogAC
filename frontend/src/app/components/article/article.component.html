@@ -1,0 +1,19 @@
+<div *ngIf="article" class="article-container">
+  <h1>{{ article.title }}</h1>
+  <div class="article-meta">
+    <span>by {{ article.author }} on {{ article.date }}</span>
+  </div>
+  <p>{{ article.content }}</p>
+  <button (click)="like()" class="like-button">Like ({{ article.likes }})</button>
+
+  <div class="comments-section">
+    <h3>Comments</h3>
+    <div *ngFor="let comment of article.comments" class="comment">
+      <p><strong>{{ comment.user }}:</strong> {{ comment.content }}</p>
+    </div>
+    <div class="add-comment">
+      <textarea [(ngModel)]="newComment" placeholder="Add a comment"></textarea>
+      <button (click)="addComment()">Comment</button>
+    </div>
+  </div>
+</div>

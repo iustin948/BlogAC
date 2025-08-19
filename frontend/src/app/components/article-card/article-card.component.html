@@ -1,0 +1,5 @@
+<div class="article-card">
+	<h2><a [routerLink]="['/article', article?.id]">{{ article?.title }}</a></h2>
+	<p class="meta">by {{ article?.author }} on {{ article?.date }}</p>
+		<p class="excerpt">{{ (article?.content || '') | slice:0:100 }}...</p>
+</div>
