@@ -25,7 +25,7 @@ export class ArticleService {
     return this.http.get<Article>(`${this.apiUrl}/${id}`);
   }
 
-  addArticle(article: Partial<Article>): Observable<Article> {
+  addArticle(article: any): Observable<Article> {
     return this.http.post<Article>(this.apiUrl, article);
   }
 

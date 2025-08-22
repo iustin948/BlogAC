@@ -18,6 +18,6 @@ public class ArticleEntity {
 
     @ManyToOne
     private UserEntity author;
-    @OneToOne
+    @ManyToOne
     private CategoryEntity category;
 }

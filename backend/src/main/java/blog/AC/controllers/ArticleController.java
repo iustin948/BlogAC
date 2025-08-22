@@ -24,7 +24,7 @@ public class ArticleController {
 
     @PostMapping()
 
-    public ResponseEntity<ArticleEntity> addArticle(@RequestBody ArticleDto dto)
+    public ResponseEntity<ArticleDto> addArticle(@RequestBody ArticleDto dto)
 
     {
         return new ResponseEntity<>(articleService.addArticle(dto), HttpStatus.OK);

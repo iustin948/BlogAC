@@ -27,7 +27,7 @@ public class ArticleServiceImpl implements ArticleService {
     UserRepository userRepository;
     CategoryRepository categoryRepository;
     @Override
-    public ArticleEntity addArticle(ArticleDto dto) {
+    public ArticleDto addArticle(ArticleDto dto) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto currentUser = (UserDto) auth.getPrincipal();
@@ -36,12 +36,24 @@ public class ArticleServiceImpl implements ArticleService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         //verificare daca categoria articolui este in lista de categorii a userului
+        CategoryEntity category = categoryRepository.findByName(dto.getCategory());
+
 
 
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
-        return articleRepository.save(entity);
+        entity.setAuthor(user);
+        entity.setCategory(category);
+        entity = articleRepository.save(entity);
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setId(entity.getId());
+        articleDto.setTitle(entity.getTitle());
+        articleDto.setContent(entity.getContent());
+        articleDto.setAuthorId(entity.getAuthor().getId());
+        articleDto.setAuthorName(entity.getAuthor().getFirstName() + " " + entity.getAuthor().getLastName());
+        articleDto.setCategory(entity.getCategory().getName());
+        return articleDto;
     }
 
     @Override
@@ -108,7 +120,7 @@ public class ArticleServiceImpl implements ArticleService {
             dto.setId(article.getId());
             dto.setAuthorId(article.getAuthor().getId());
             dto.setAuthorName(article.getAuthor().getFirstName() + " " + article.getAuthor().getLastName());
-            dto.setCategoryName(article.getCategory().getName());
+            dto.setCategory(article.getCategory().getName());
             return dto;
         });
     }

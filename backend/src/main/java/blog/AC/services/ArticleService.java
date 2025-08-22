@@ -5,7 +5,7 @@ import blog.AC.domain.entities.ArticleEntity;
 import org.springframework.data.domain.Page;
 
 public interface ArticleService {
-    ArticleEntity addArticle(ArticleDto dto);
+    ArticleDto addArticle(ArticleDto dto);
     ArticleEntity deleteArticle(Long id);
     ArticleDto modifyArticle(Long id, ArticleDto entity);
 
