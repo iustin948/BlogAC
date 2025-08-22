@@ -1,6 +1,7 @@
 package blog.AC.services.impl;
 
 import blog.AC.domain.dto.ArticleDto;
+import blog.AC.domain.dto.CommentCreateDto;
 import blog.AC.domain.dto.CommentDto;
 import blog.AC.domain.entities.ArticleEntity;
 import blog.AC.domain.entities.CommentEntity;
@@ -27,13 +28,18 @@ public class CommentServiceImpl implements CommentService {
     MyUserDetailsService myUserDetailsService;
 
     @Override
-    public CommentDto createComment(Long articleId, String content) {
+    public CommentDto createComment(Long articleId, CommentCreateDto commentDto) {
         CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setContent(content);
+        commentEntity.setContent(commentDto.getContent());
         commentEntity.setArticle(articleRepository.findById(articleId)
                 .orElseThrow(() -> new RuntimeException("Article not found")));
         commentEntity.setUserId(myUserDetailsService.getLoggedInUser().getId());
         commentEntity.setCreatedAt(java.time.LocalDateTime.now());
+        if (commentDto.getParentId() != null) {
+            CommentEntity parentComment = commentRepository.findById(commentDto.getParentId())
+                    .orElseThrow(() -> new RuntimeException("Parent comment not found"));
+            commentEntity.setParent(parentComment);
+        }
         CommentEntity savedComment = commentRepository.save(commentEntity);
         return commentMapper.mapTo(savedComment);
 

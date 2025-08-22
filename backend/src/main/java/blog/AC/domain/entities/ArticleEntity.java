@@ -13,6 +13,7 @@ public class ArticleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     private String title;
+    @Column(length = 65535)
     private String content;
     private LocalDateTime postedDate = LocalDateTime.now();
 

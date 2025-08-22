@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Article, PaginatedArticles } from '../models/article';
+import { Comment, PaginatedComment } from '../models/comment';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -21,8 +22,31 @@ export class ArticleService {
   }
 
   getArticle(id: number): Observable<Article> {
-    // Assuming a GET endpoint for a single article exists, e.g., /article/{id}
+    if (!Number.isFinite(id) || id <= 0) {
+      throw new Error(`Invalid article id: ${id}`);
+    }
     return this.http.get<Article>(`${this.apiUrl}/${id}`);
+  }
+  
+  getComments(articleId: number): Observable<PaginatedComment> {
+    if (!Number.isFinite(articleId) || articleId <= 0) {
+      throw new Error(`Invalid article id for comments: ${articleId}`);
+    }
+    return this.http.get<PaginatedComment>(`${this.apiUrl}/${articleId}/comments`);
+  }
+
+  addComment(articleId: number, content: string, parentId?: number): Observable<Comment> {
+    if (!Number.isFinite(articleId) || articleId <= 0) {
+      throw new Error(`Invalid article id for addComment: ${articleId}`);
+    }
+    const commentData: { content: string; parentId?: number } = { content };
+    if (parentId) {
+      commentData.parentId = parentId;
+    }
+    return this.http.post<Comment>(
+      `${this.apiUrl}/${articleId}/comments`,
+      commentData
+    );
   }
 
   addArticle(article: any): Observable<Article> {

@@ -4,16 +4,85 @@
     <span>by {{ article.authorName }} on {{ article.postedDate | date }}</span>
   </div>
   <p>{{ article.content }}</p>
-  <button  class="like-button">Like (42)</button>
+  <button class="like-button">Like (42)</button>
 
-  <!-- <div class="comments-section">
-    <h3>Comments</h3>
-    <div *ngFor="let comment of article.comments" class="comment">
-      <p><strong>{{ comment.user }}:</strong> {{ comment.content }}</p>
+  <div class="comments-section">
+    <h3>Comments ({{ comments.length }})</h3>
+    
+    <div *ngIf="comments.length === 0" class="no-comments">
+      <p>No comments yet. Be the first to share your thoughts!</p>
     </div>
+    
+  <!-- Parent comment template - recursively handles displaying comments and their children -->
+  <ng-template #commentTemplate let-comment>
+    <div class="comment" [class.has-children]="comment.children && comment.children.length > 0">
+      <div class="comment-avatar" aria-hidden="true">
+        {{ (comment.userId || 0) % 100 | number:'2.0' }}
+      </div>
+      <div class="comment-body">
+        <div class="comment-header">
+          <span class="commenter">User #{{ comment.userId }}</span>
+          <span class="comment-date">{{ comment.createdAt | date:'medium' }}</span>
+        </div>
+        <div class="comment-bubble">
+          <p class="comment-content">{{ comment.content }}</p>
+          <button class="reply-button" (click)="startReply(comment.id)">Reply</button>
+        </div>
+        
+        <!-- Reply form for this comment -->
+        <div *ngIf="replyingToComment === comment.id" class="reply-form">
+          <textarea 
+            [(ngModel)]="replyText" 
+            placeholder="Write your reply..."
+            [disabled]="isLoading"
+          ></textarea>
+          <div class="reply-actions">
+            <button class="cancel-reply" (click)="cancelReply()">Cancel</button>
+            <button 
+              class="submit-reply" 
+              [disabled]="!replyText.trim() || isLoading" 
+              (click)="submitReply(comment)"
+            >
+              {{ isLoading ? 'Submitting...' : 'Submit Reply' }}
+            </button>
+          </div>
+        </div>
+        
+        <!-- Display child comments if any -->
+        <div *ngIf="comment.children && comment.children.length > 0" class="child-comments">
+          <div *ngFor="let childComment of comment.children" class="child-comment">
+            <ng-container [ngTemplateOutlet]="commentTemplate" [ngTemplateOutletContext]="{$implicit: childComment}"></ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <!-- Root comments -->
+  <div *ngFor="let comment of comments" class="comment-thread">
+    <ng-container [ngTemplateOutlet]="commentTemplate" [ngTemplateOutletContext]="{$implicit: comment}"></ng-container>
+  </div>
+    
     <div class="add-comment">
-      <textarea [(ngModel)]="newComment" placeholder="Add a comment"></textarea>
-      <button >Comment</button>
+      <h4>Add a comment</h4>
+      <div *ngIf="commentError" class="comment-error">{{ commentError }}</div>
+      <textarea 
+        [(ngModel)]="newComment" 
+        (ngModelChange)="onCommentInput($event)"
+        placeholder="Share your thoughts..."
+      ></textarea>
+      <button 
+        type="button"
+        (click)="addComment()"
+        [class.is-loading]="isLoading"
+        class="comment-button"
+      >
+        {{ isLoading ? 'Posting...' : 'Post Comment' }}
+      </button>
     </div>
-  </div> -->
+  </div>
+</div>
+
+<div *ngIf="!article" class="loading">
+  <p>Loading article...</p>
 </div>

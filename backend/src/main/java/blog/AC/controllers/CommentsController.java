@@ -1,5 +1,6 @@
 package blog.AC.controllers;
 
+import blog.AC.domain.dto.CommentCreateDto;
 import blog.AC.domain.dto.CommentDto;
 import blog.AC.services.CommentService;
 import lombok.AllArgsConstructor;
@@ -26,9 +27,9 @@ public class CommentsController {
 
     @PostMapping()
     public ResponseEntity<CommentDto> addComment(@PathVariable Long articleId,
-                                                 @RequestBody String content) {
+                                                 @RequestBody CommentCreateDto commentDto) {
         // Business logic to be implemented in the service layer
-        return new ResponseEntity<>(commentsService.createComment(articleId, content), HttpStatus.CREATED);
+        return new ResponseEntity<>(commentsService.createComment(articleId, commentDto), HttpStatus.CREATED);
 
     }
 
