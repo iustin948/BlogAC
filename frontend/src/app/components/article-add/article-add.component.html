@@ -1,41 +1,72 @@
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header">
-          <h2 class="text-center">Add New Article</h2>
+<div class="article-creation-page">
+  <div class="article-editor">
+    <div class="editor-header">
+      <h1>Create New Article</h1>
+    </div>
+    <div class="editor-body">
+      <form (ngSubmit)="onSubmit()">
+        
+        <div class="floating-label-group">
+          <div class="floating-label">Title</div>
+          <input 
+            type="text" 
+            class="form-field" 
+            id="title" 
+            required 
+            [(ngModel)]="article.title" 
+            name="title" 
+            #title="ngModel" 
+            placeholder="Enter a captivating title for your article..."
+          >
+          <div *ngIf="title.invalid && (title.dirty || title.touched)" class="error-message">
+            Please provide a title for your article
+          </div>
         </div>
-        <div class="card-body">
-          <form (ngSubmit)="onSubmit()">
-            <div class="form-group mb-3">
-              <label for="title">Title</label>
-              <input type="text" class="form-control" id="title" required [(ngModel)]="article.title" name="title" #title="ngModel">
-              <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger mt-1">
-                Title is required.
-              </div>
-            </div>
-            <div class="form-group mb-3">
-              <label for="content">Content</label>
-              <textarea class="form-control" id="content" rows="5" required [(ngModel)]="article.content" name="content" #content="ngModel"></textarea>
-              <div *ngIf="content.invalid && (content.dirty || content.touched)" class="alert alert-danger mt-1">
-                Content is required.
-              </div>
-            </div>
-            <div class="form-group mb-3">
-              <label for="category">Category</label>
-              <select class="form-control" id="category" required [(ngModel)]="article.category" name="category" #category="ngModel">
-                <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
-              </select>
-              <div *ngIf="category.invalid && (category.dirty || category.touched)" class="alert alert-danger mt-1">
-                Category is required.
-              </div>
-            </div>
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary" [disabled]="!title.valid || !content.valid || !category.valid">Submit</button>
-            </div>
-          </form>
+        
+        <div class="floating-label-group">
+          <div class="floating-label">Content</div>
+          <textarea 
+            class="form-field content-editor" 
+            id="content" 
+            required 
+            [(ngModel)]="article.content" 
+            name="content" 
+            #content="ngModel" 
+            placeholder="Write your article content here..."
+          ></textarea>
+          <div *ngIf="content.invalid && (content.dirty || content.touched)" class="error-message">
+            Article content cannot be empty
+          </div>
         </div>
-      </div>
+        
+        <div class="floating-label-group">
+          <div class="floating-label">Category</div>
+          <select 
+            class="form-field category-selector" 
+            id="category" 
+            required 
+            [(ngModel)]="article.category" 
+            name="category" 
+            #category="ngModel"
+          >
+            <option value="" disabled selected>Select a category for your article</option>
+            <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+          </select>
+          <div *ngIf="category.invalid && (category.dirty || category.touched)" class="error-message">
+            Please select a category
+          </div>
+        </div>
+        
+        <div class="editor-footer">
+          <button 
+            type="submit" 
+            class="publish-button" 
+            [disabled]="!title.valid || !content.valid || !category.valid"
+          >
+            Publish Article
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
