@@ -21,7 +21,7 @@
       </div>
       <div class="comment-body">
         <div class="comment-header">
-          <span class="commenter">User #{{ comment.userId }}</span>
+          <span class="commenter">{{ comment.authorName }}</span>
           <span class="comment-date">{{ comment.createdAt | date:'medium' }}</span>
         </div>
         <div class="comment-bubble">

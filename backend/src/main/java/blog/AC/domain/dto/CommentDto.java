@@ -9,7 +9,8 @@ public class CommentDto {
     private Long id;
     private String content;
     private String createdAt;
-    private Long userId;
+    private Long authorId;
+    private String authorName;
     private Long articleId;
     private Long parentId; // Nullable for root comments
 

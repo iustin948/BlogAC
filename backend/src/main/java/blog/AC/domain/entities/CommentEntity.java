@@ -21,7 +21,8 @@ public class CommentEntity {
     private CommentEntity parent;
     private String content;
     private LocalDateTime createdAt;
-    private Long userId;
+    @ManyToOne
+    private UserEntity user;
 
 
 }

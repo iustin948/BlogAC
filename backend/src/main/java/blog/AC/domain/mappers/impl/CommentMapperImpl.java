@@ -21,7 +21,8 @@ public class CommentMapperImpl implements Mapper<CommentEntity, CommentDto> {
                 commentEntity.getId(),
                 commentEntity.getContent(),
                 commentEntity.getCreatedAt().toString(),
-                commentEntity.getUserId(),
+                commentEntity.getUser().getId(),
+                commentEntity.getUser().getFirstName() + " " + commentEntity.getUser().getLastName(),
                 commentEntity.getArticle().getId(),
                 commentEntity.getParent() != null ? commentEntity.getParent().getId() : null
         );
@@ -36,7 +37,6 @@ public class CommentMapperImpl implements Mapper<CommentEntity, CommentDto> {
         commentEntity.setId(commentDto.getId());
         commentEntity.setContent(commentDto.getContent());
         // Assuming createdAt is set elsewhere, e.g., in the service layer
-        commentEntity.setUserId(commentDto.getUserId());
         commentEntity.setArticle(commentRepository.findArticleById(commentDto.getArticleId()));
         commentEntity.setParent(commentRepository.findById(commentDto.getParentId()).orElse(null));
         return commentEntity;

@@ -5,7 +5,8 @@ export interface PaginatedComment {
 export interface Comment {
   id: number;
   articleId: number;
-  userId: number;
+  authorId: number;
+  authorName: string;
   parentId: number | null;
   content: string;
   createdAt: string;

@@ -10,6 +10,10 @@ import blog.AC.domain.mappers.impl.CommentMapperImpl;
 import blog.AC.repositories.ArticleRepository;
 import blog.AC.repositories.CommentRepository;
 import blog.AC.services.ArticleService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import blog.AC.domain.dto.UserDto;
+import blog.AC.repositories.UserRepository;
 import blog.AC.services.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     CommentRepository commentRepository;
     CommentMapperImpl commentMapper;
     ArticleRepository articleRepository;
-    MyUserDetailsService myUserDetailsService;
+    UserRepository userRepository;
 
     @Override
     public CommentDto createComment(Long articleId, CommentCreateDto commentDto) {
@@ -33,7 +37,14 @@ public class CommentServiceImpl implements CommentService {
         commentEntity.setContent(commentDto.getContent());
         commentEntity.setArticle(articleRepository.findById(articleId)
                 .orElseThrow(() -> new RuntimeException("Article not found")));
-        commentEntity.setUserId(myUserDetailsService.getLoggedInUser().getId());
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto currentUser = (UserDto) auth.getPrincipal();
+
+        UserEntity user = userRepository.findByEmail(currentUser.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        commentEntity.setUser(user);
+
         commentEntity.setCreatedAt(java.time.LocalDateTime.now());
         if (commentDto.getParentId() != null) {
             CommentEntity parentComment = commentRepository.findById(commentDto.getParentId())

@@ -125,18 +125,7 @@ export class ArticleComponent implements OnInit {
     this.commentError = '';
 
     this.articleService.addComment(articleId, text).subscribe({
-      next: () => {
-        // Push locally using a placeholder that matches Comment interface
-        const newComment = {
-          id: -1,
-          articleId,
-          userId: 0,
-          parentId: null,
-          content: text,
-          createdAt: new Date().toISOString(),
-          children: []
-        };
-        
+      next: (newComment: Comment) => {
         this.comments.push(newComment);
         this.newComment = '';
         this.isCommentEmpty = true;
@@ -188,18 +177,7 @@ export class ArticleComponent implements OnInit {
     
     // Add comment with parentId
     this.articleService.addComment(articleId, text, parentId).subscribe({
-      next: (response: Comment) => {
-        // Create a placeholder subcomment
-        const newSubcomment: Comment = {
-          id: response?.id || -1,
-          articleId,
-          userId: 0,
-          parentId,
-          content: text,
-          createdAt: new Date().toISOString(),
-          children: []
-        };
-        
+      next: (newSubcomment: Comment) => {
         // Add to parent's children array
         if (!parentComment.children) {
           parentComment.children = [];
