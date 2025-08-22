@@ -1,5 +1,6 @@
 package blog.AC.repositories;
 import blog.AC.domain.entities.ArticleEntity;
+import blog.AC.domain.entities.CategoryEntity;
 import blog.AC.domain.entities.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,6 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
        """)
     Page<ArticleEntity> findByUserAndCategory(
             @Param("author") UserEntity author,
-            @Param("category") String category,
+            @Param("category") CategoryEntity category,
             Pageable pageable);
 }

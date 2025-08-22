@@ -14,4 +14,5 @@ public class ArticleDto {
     private Long id;
     private Long authorId;
     private String authorName;
+    private String categoryName;
 }

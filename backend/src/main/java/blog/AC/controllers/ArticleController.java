@@ -54,4 +54,14 @@ public class ArticleController {
 
             //return new ResponseEntity<>(articles, HttpStatus.OK);
         }
+    @GetMapping("/{articleId}")
+    public ResponseEntity<ArticleDto> getArticle(@PathVariable Long articleId) {
+        ArticleDto article = articleService.getArticle(articleId);
+        if (article != null) {
+            return new ResponseEntity<>(article, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
+

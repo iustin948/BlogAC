@@ -3,8 +3,10 @@ package blog.AC.services.impl;
 import blog.AC.domain.dto.ArticleDto;
 import blog.AC.domain.dto.UserDto;
 import blog.AC.domain.entities.ArticleEntity;
+import blog.AC.domain.entities.CategoryEntity;
 import blog.AC.domain.entities.UserEntity;
 import blog.AC.repositories.ArticleRepository;
+import blog.AC.repositories.CategoryRepository;
 import blog.AC.repositories.UserRepository;
 import blog.AC.services.ArticleService;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
     ArticleRepository articleRepository;
     UserRepository userRepository;
+    CategoryRepository categoryRepository;
     @Override
     public ArticleEntity addArticle(ArticleDto dto) {
 
@@ -84,10 +87,19 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<ArticleDto> getArticles(String user, String category, int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit);
         UserEntity userEntity = null;
+        CategoryEntity categoryEntity = null;
         if(user != null) userEntity = userRepository.findByEmail(user)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        // If category is null, we can pass it as null to the repository method
+        if (category != null) {
+               categoryEntity =  categoryRepository.findByName(category);
+                if(categoryEntity == null) {
+                    throw new RuntimeException("Category not found");
+                }
+
+        }
         Page<ArticleEntity> articlesPage =
-                articleRepository.findByUserAndCategory(userEntity, category, pageable);
+                articleRepository.findByUserAndCategory(userEntity, categoryEntity, pageable);
 
         return articlesPage.map(article -> {
             ArticleDto dto = new ArticleDto();
@@ -96,6 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
             dto.setId(article.getId());
             dto.setAuthorId(article.getAuthor().getId());
             dto.setAuthorName(article.getAuthor().getFirstName() + " " + article.getAuthor().getLastName());
+            dto.setCategoryName(article.getCategory().getName());
             return dto;
         });
     }
