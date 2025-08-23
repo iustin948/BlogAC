@@ -6,7 +6,18 @@
     <a class="nav-link" routerLink="/category/Technology">Technology</a>
   </div>
   <div class="navbar-right">
-    <a class="nav-link" routerLink="/login">Login</a>
-    <a class="nav-link" routerLink="/register">Register</a>
+    <ng-container *ngIf="!authService.loggedIn(); else loggedInUser">
+      <a class="nav-link" routerLink="/login">Login</a>
+      <a class="nav-link" routerLink="/register">Register</a>
+    </ng-container>
+    <ng-template #loggedInUser>
+      <div class="dropdown">
+        <button class="dropbtn">Account</button>
+        <div class="dropdown-content">
+          <a routerLink="/profile">Profile</a>
+          <a (click)="logout()">Logout</a>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </nav>

@@ -16,6 +16,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
 import { ArticleAddComponent } from './components/article-add/article-add.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ArticleAddComponent } from './components/article-add/article-add.compon
     LoginComponent,
     RegisterComponent,
     ArticleCardComponent,
-    ArticleAddComponent
+    ArticleAddComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
