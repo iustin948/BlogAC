@@ -73,7 +73,8 @@ export class AuthService {
       return false;
     }
     const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.roles.includes('ROLE_ADMIN');
+    console.log(payload)
+    return payload.authorities.includes('ROLE_ADMIN');
   }
 
   // Optionally, add a method to get the current user profile from backend

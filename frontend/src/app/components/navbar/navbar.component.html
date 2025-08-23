@@ -15,6 +15,7 @@
         <div class="dropdown-content">
           <a routerLink="/profile">Profile</a>
           <a *ngIf="authService.isAdmin()" routerLink="/admin-dashboard">Admin Dashboard</a>
+          <a *ngIf="authService.isAdmin()" routerLink="/add-article">Add Article</a>
           <a (click)="logout()">Logout</a>
         </div>
       </div>
