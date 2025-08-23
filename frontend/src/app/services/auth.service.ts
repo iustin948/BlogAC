@@ -37,8 +37,20 @@ export class AuthService {
     // this.sessionUser = undefined; // Uncomment if you use sessionUser
   }
 
-  loggedIn(): boolean {
-    return !!this.getToken();
+  loggedIn(): { isLoggedIn: boolean; roles: string[] } {
+    const token = this.getToken();
+    if (!token) {
+      return { isLoggedIn: false, roles: [] };
+    }
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const roles = payload.roles || [];
+      return { isLoggedIn: true, roles };
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return { isLoggedIn: false, roles: [] };
+    }
   }
 
   getToken(): string | null {
