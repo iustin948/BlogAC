@@ -28,3 +28,20 @@
 	color: #444;
 }
 
+.article-card .article-stats {
+	display: flex;
+	margin-top: 0.75rem;
+}
+
+.article-card .likes-counter,
+.article-card .comments-counter {
+	display: flex;
+	align-items: center;
+	margin-right: 1rem;
+}
+
+.article-card .icon {
+	font-size: 1rem;
+	margin-right: 0.3rem;
+}
+

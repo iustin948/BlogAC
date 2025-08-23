@@ -7,6 +7,7 @@ export interface Article {
   postedDate: string;
   category: string | null;
   likes: number;
+  commentsCount: number;
   userHasLiked: boolean;
 }
 

@@ -16,4 +16,5 @@ public class ArticleDto {
     private String category;
     private int likes;
     private boolean userHasLiked;
+    private int commentsCount;
 }

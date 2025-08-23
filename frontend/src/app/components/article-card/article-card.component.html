@@ -1,5 +1,13 @@
 <div class="article-card">
 	<h2><a [routerLink]="['/article', article?.id]">{{ article?.title }}</a></h2>
 	<p class="meta">by {{ article?.authorName }} on {{ article?.postedDate | date }}</p>
-		<p class="excerpt">{{ (article?.content || '') | slice:0:100 }}...</p>
+	<p class="excerpt">{{ (article?.content || '') | slice:0:100 }}...</p>
+	<div class="article-stats">
+		<div class="likes-counter">
+			<span class="icon">❤️ {{ article?.likes !== undefined ? article?.likes : 0 }}</span>
+		</div>
+		<div class="comments-counter">
+			<span class="icon">💬 {{ article?.commentsCount !== undefined ? article?.commentsCount : 0 }}</span>
+		</div>
+	</div>
 </div>

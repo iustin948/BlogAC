@@ -8,6 +8,7 @@ import blog.AC.domain.entities.LikeEntity;
 import blog.AC.domain.entities.UserEntity;
 import blog.AC.repositories.ArticleRepository;
 import blog.AC.repositories.CategoryRepository;
+import blog.AC.repositories.CommentRepository;
 import blog.AC.repositories.LikeRepository;
 import blog.AC.repositories.UserRepository;
 import blog.AC.services.ArticleService;
@@ -30,6 +31,7 @@ public class ArticleServiceImpl implements ArticleService {
     UserRepository userRepository;
     CategoryRepository categoryRepository;
     LikeRepository likeRepository;
+    CommentRepository commentRepository;
     @Override
     public ArticleDto addArticle(ArticleDto dto) {
 
@@ -112,6 +114,11 @@ public class ArticleServiceImpl implements ArticleService {
             }
             articleDto.setLikes(article.getLikesCount());
             articleDto.setUserHasLiked(userHasLiked);
+            
+            // Get the comments count for this article
+            int commentsCount = commentRepository.countByArticleId(article.getId());
+            articleDto.setCommentsCount(commentsCount);
+            
             return articleDto;
         }
 
@@ -153,6 +160,11 @@ public class ArticleServiceImpl implements ArticleService {
             dto.setCategory(article.getCategory().getName());
             dto.setLikes(article.getLikesCount());
             dto.setUserHasLiked(userHasLiked);
+            
+            // Get the comments count for this article
+            int commentsCount = commentRepository.countByArticleId(article.getId());
+            dto.setCommentsCount(commentsCount);
+            
             return dto;
         });
     }
