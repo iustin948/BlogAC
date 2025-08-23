@@ -6,6 +6,8 @@ export interface Article {
   content: string;
   postedDate: string;
   category: string | null;
+  likes: number;
+  userHasLiked: boolean;
 }
 
 export interface Sort {

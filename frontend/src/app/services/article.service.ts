@@ -66,4 +66,8 @@ export class ArticleService {
       params: new HttpParams().set('articleId', articleId)
     });
   }
+
+  likeArticle(articleId: number): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${articleId}/like`, {});
+  }
 }

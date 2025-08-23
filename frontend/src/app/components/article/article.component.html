@@ -4,7 +4,9 @@
     <span>by {{ article.authorName }} on {{ article.postedDate | date }}</span>
   </div>
   <p>{{ article.content }}</p>
-  <button class="like-button">Like (42)</button>
+  <button class="like-button" (click)="likeArticle()" [class.liked]="article?.userHasLiked">
+  {{ article?.userHasLiked ? 'Unlike' : 'Like' }} ({{ article?.likes || 0 }})
+</button>
 
   <div class="comments-section">
     <h3>Comments ({{ comments.length }})</h3>

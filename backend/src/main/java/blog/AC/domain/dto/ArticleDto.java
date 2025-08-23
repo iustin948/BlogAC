@@ -14,4 +14,6 @@ public class ArticleDto {
     private Long authorId;
     private String authorName;
     private String category;
+    private int likes;
+    private boolean userHasLiked;
 }

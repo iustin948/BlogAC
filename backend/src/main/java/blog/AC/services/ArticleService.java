@@ -12,4 +12,6 @@ public interface ArticleService {
     ArticleDto getArticle(Long id);
 
     Page<ArticleDto> getArticles(String user, String category, int page, int limit);
+
+    void likeArticle(Long id);
 }

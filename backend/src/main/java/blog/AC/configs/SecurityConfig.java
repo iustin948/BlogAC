@@ -60,7 +60,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.PATCH, "/staff/accept/**").authenticated()
                                 .requestMatchers( "/categories/**").hasRole("ADMIN")
-                                .requestMatchers( "/article/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/article/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/article/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PATCH, "/article/*/like").permitAll()
                                 .anyRequest().permitAll()
                 );
 

@@ -73,7 +73,7 @@ export class AuthService {
       return false;
     }
     const payload = JSON.parse(atob(token.split('.')[1]));
-    console.log(payload)
+  //  console.log(payload)
     return payload.authorities.includes('ROLE_ADMIN');
   }
 

@@ -23,7 +23,9 @@ export class ArticleComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService
-  ) { }
+  ) { 
+    console.log('ArticleComponent instantiated');
+  }
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -35,6 +37,7 @@ export class ArticleComponent implements OnInit {
   this.routeArticleId = id;
     this.articleService.getArticle(id).subscribe(article => {
       this.article = article;
+      console.log('Article loaded:', this.article);
       this.loadComments(id);
     });
   }
@@ -195,5 +198,39 @@ export class ArticleComponent implements OnInit {
         console.error('Error adding reply:', error);
       }
     });
+  }
+
+  likeArticle(): void {
+    console.log('Like button clicked');
+    
+    if (!this.article) {
+      console.log('No article loaded to like');
+      return;
+    }
+
+    console.log('Article ID:', this.article.id);
+
+    if (this.article.id) {
+      this.articleService.likeArticle(this.article.id).subscribe({
+        next: () => {
+          console.log('Like/unlike successful');
+          if (this.article) {
+            // Toggle the like status
+            this.article.userHasLiked = !this.article.userHasLiked;
+            // Update the likes count
+            this.article.likes = this.article.userHasLiked 
+              ? this.article.likes + 1 
+              : this.article.likes - 1;
+          }
+        },
+        error: (err) => {
+          console.log('Failed to like/unlike article:', err);
+        }
+      });
+    }
+  }
+
+  isArticleIdValid(): boolean {
+    return this.article?.id !== undefined && Number.isFinite(this.article.id);
   }
 }

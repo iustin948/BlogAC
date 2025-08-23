@@ -63,5 +63,10 @@ public class ArticleController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PatchMapping("/{articleId}/like")
+    public ResponseEntity<Void> likeArticle(@PathVariable Long articleId) {
+        articleService.likeArticle(articleId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
 

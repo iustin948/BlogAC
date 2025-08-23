@@ -43,6 +43,14 @@
     background-color: #0056b3;
 }
 
+.like-button.liked {
+    background-color: #dc3545;
+}
+
+.like-button.liked:hover {
+    background-color: #b02a37;
+}
+
 .comments-section {
   margin-top: 3rem;
   border-top: 1px solid #eee;
