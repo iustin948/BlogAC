@@ -19,6 +19,8 @@ export class ArticleComponent implements OnInit {
   private routeArticleId: number | null = null;
   replyingToComment: number | null = null;
   replyText: string = '';
+  showSharePopup: boolean = false;
+  linkCopied: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -232,5 +234,26 @@ export class ArticleComponent implements OnInit {
 
   isArticleIdValid(): boolean {
     return this.article?.id !== undefined && Number.isFinite(this.article.id);
+  }
+
+  toggleSharePopup(): void {
+    this.showSharePopup = !this.showSharePopup;
+    if (!this.showSharePopup) {
+      this.linkCopied = false;
+    }
+  }
+
+  copyLinkToClipboard(): void {
+    const currentUrl = window.location.href;
+    navigator.clipboard.writeText(currentUrl)
+      .then(() => {
+        this.linkCopied = true;
+        setTimeout(() => {
+          this.linkCopied = false;
+        }, 3000);
+      })
+      .catch(err => {
+        console.error('Could not copy text: ', err);
+      });
   }
 }

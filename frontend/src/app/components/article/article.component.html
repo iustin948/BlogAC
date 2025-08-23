@@ -4,9 +4,39 @@
     <span>by {{ article.authorName }} on {{ article.postedDate | date }}</span>
   </div>
   <p>{{ article.content }}</p>
-  <button class="like-button" (click)="likeArticle()" [class.liked]="article?.userHasLiked">
-  {{ article?.userHasLiked ? 'Unlike' : 'Like' }} ({{ article?.likes || 0 }})
-</button>
+  <div class="article-actions">
+    <button class="like-button" (click)="likeArticle()" [class.liked]="article?.userHasLiked">
+      {{ article?.userHasLiked ? 'Unlike' : 'Like' }} ({{ article?.likes || 0 }})
+    </button>
+    <button class="share-button" (click)="toggleSharePopup()">
+      <i class="fas fa-share"></i> Share
+    </button>
+  </div>
+  
+  <!-- Share Popup -->
+  <div class="share-popup" *ngIf="showSharePopup">
+    <div class="share-popup-content">
+      <div class="share-popup-header">
+        <h3>Share this article</h3>
+        <button class="close-button" (click)="toggleSharePopup()">×</button>
+      </div>
+      <div class="share-options">
+        <button class="share-option facebook" disabled>
+          <i class="fab fa-facebook"></i> Facebook
+        </button>
+        <button class="share-option instagram" disabled>
+          <i class="fab fa-instagram"></i> Instagram
+        </button>
+        <button class="share-option twitter" disabled>
+          <i class="fab fa-x-twitter"></i> X
+        </button>
+        <button class="share-option link" (click)="copyLinkToClipboard()">
+          <i class="fas fa-link"></i> Copy Link
+          <span class="copy-feedback" *ngIf="linkCopied">Copied!</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div class="comments-section">
     <h3>Comments ({{ comments.length }})</h3>
