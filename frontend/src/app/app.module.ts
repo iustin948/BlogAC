@@ -17,6 +17,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
 import { ArticleAddComponent } from './components/article-add/article-add.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ApplyWriterComponent } from './components/apply-writer/apply-writer.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     RegisterComponent,
     ArticleCardComponent,
     ArticleAddComponent,
-    ProfileComponent
+    ProfileComponent,
+    ApplyWriterComponent
   ],
   imports: [
     BrowserModule,

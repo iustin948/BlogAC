@@ -1,0 +1,42 @@
+<div class="apply-container">
+  <h2>Apply to be a Writer</h2>
+  <form (ngSubmit)="apply()">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" name="firstName" [(ngModel)]="application.firstName" required>
+    </div>
+    <div class="form-group">
+      <label for="secondName">Last Name</label>
+      <input type="text" id="secondName" name="secondName" [(ngModel)]="application.secondName" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" [(ngModel)]="application.email" required>
+    </div>
+    <div class="form-group">
+      <label for="currentYear">Year of Study</label>
+      <input type="number" id="currentYear" name="currentYear" [(ngModel)]="application.currentYear" required>
+    </div>
+    <div class="form-group">
+      <label for="currentStudyCycle">Study Cycle</label>
+      <select id="currentStudyCycle" name="currentStudyCycle" [(ngModel)]="application.currentStudyCycle" required>
+        <option value="Bachelor">Bachelor</option>
+        <option value="Master">Master</option>
+        <option value="PhD">PhD</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="category">Preferred Category</label>
+      <select id="category" name="category" [(ngModel)]="application.category" required>
+        <option *ngFor="let category of categories" [value]="category.name">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="coverLetter">Cover Letter</label>
+      <textarea id="coverLetter" name="coverLetter" [(ngModel)]="application.coverLetter" rows="5" required></textarea>
+    </div>
+    <button type="submit">Submit Application</button>
+  </form>
+</div>

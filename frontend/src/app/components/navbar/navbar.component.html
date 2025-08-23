@@ -1,9 +1,8 @@
 <nav class="navbar">
   <div class="navbar-left">
     <a class="navbar-brand" routerLink="/">University Forum</a>
-    <a class="nav-link" routerLink="/category/Programming">Programming</a>
-    <a class="nav-link" routerLink="/category/University">University</a>
-    <a class="nav-link" routerLink="/category/Technology">Technology</a>
+    <a *ngFor="let category of categories" class="nav-link" [routerLink]="['/category', category.name]">{{ category.name }}</a>
+    <a class="nav-link" routerLink="/apply-writer">Become a Writer</a>
   </div>
   <div class="navbar-right">
     <ng-container *ngIf="!authService.loggedIn(); else loggedInUser">

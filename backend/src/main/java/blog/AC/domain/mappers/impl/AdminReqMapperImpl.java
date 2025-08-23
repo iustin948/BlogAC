@@ -17,7 +17,19 @@ public class AdminReqMapperImpl implements Mapper<AdminReqEntity, AdminReqDto> {
 
     @Override
     public AdminReqEntity mapFrom(AdminReqDto adminReqDto) {
-        return null;
+        AdminReqEntity entity = new AdminReqEntity();
+
+        // Map each field from DTO to Entity
+        entity.setFirstName(adminReqDto.getFirstName());
+        entity.setSecondName(adminReqDto.getSecondName());
+        entity.setCurrentYear(adminReqDto.getCurrentYear());
+        entity.setCurrentStudyCycle(adminReqDto.getCurrentStudyCycle());
+        entity.setEmail(adminReqDto.getEmail());
+        entity.setCategory(adminReqDto.getCategory());
+        entity.setCoverLetter(adminReqDto.getCoverLetter());
+        entity.setTimeStamp(adminReqDto.getTimeStamp());
+
+        return entity;
     }
 
 
