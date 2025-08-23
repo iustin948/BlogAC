@@ -16,3 +16,5 @@ export interface ArticleModel {
 
 export { CommentModel as Comment };
 export { ArticleModel as Article };
+export * from './user';
+export * from './admin-req';

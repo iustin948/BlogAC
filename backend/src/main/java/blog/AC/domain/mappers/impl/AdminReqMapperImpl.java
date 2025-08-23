@@ -1,18 +1,27 @@
 package blog.AC.domain.mappers.impl;
 
 import blog.AC.domain.dto.AdminReqDto;
-import blog.AC.domain.dto.UserDto;
 import blog.AC.domain.entities.AdminReqEntity;
-import blog.AC.domain.entities.UserEntity;
 import blog.AC.domain.mappers.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AdminReqMapperImpl implements Mapper<AdminReqEntity, AdminReqDto> {
-
     @Override
     public AdminReqDto mapTo(AdminReqEntity adminReqEntity) {
-        return null;
+        if (adminReqEntity == null) {
+            return null;
+        }
+        AdminReqDto adminReqDto = new AdminReqDto();
+        adminReqDto.setId(adminReqEntity.getId());
+        adminReqDto.setFirstName(adminReqEntity.getFirstName());
+        adminReqDto.setSecondName(adminReqEntity.getSecondName());
+        adminReqDto.setCurrentYear(adminReqEntity.getCurrentYear());
+        adminReqDto.setCurrentStudyCycle(adminReqEntity.getCurrentStudyCycle());
+        adminReqDto.setEmail(adminReqEntity.getEmail());
+        adminReqDto.setCategory(adminReqEntity.getCategory());
+        adminReqDto.setCoverLetter(adminReqEntity.getCoverLetter());
+        return adminReqDto;
     }
 
     @Override

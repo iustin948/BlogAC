@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ArticleAddComponent } from './components/article-add/article-add.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ApplyWriterComponent } from './components/apply-writer/apply-writer.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'add-article', component: ArticleAddComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'apply-writer', component: ApplyWriterComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
 ];
 
 @NgModule({

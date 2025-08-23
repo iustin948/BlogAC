@@ -1,4 +1,5 @@
 export interface AdminReq {
+  id?: number;
   firstName: string;
   secondName: string;
   currentYear: number;

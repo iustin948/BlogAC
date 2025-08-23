@@ -60,7 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changeRole(String email, String role) {
-
+        UserEntity user = userRepository.findByEmail(email).get();
+        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_STAFF")));
+        userRepository.save(user);
     }
 
 

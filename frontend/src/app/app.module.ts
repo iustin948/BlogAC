@@ -18,6 +18,7 @@ import { ArticleCardComponent } from './components/article-card/article-card.com
 import { ArticleAddComponent } from './components/article-add/article-add.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ApplyWriterComponent } from './components/apply-writer/apply-writer.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ApplyWriterComponent } from './components/apply-writer/apply-writer.com
     ArticleCardComponent,
     ArticleAddComponent,
     ProfileComponent,
-    ApplyWriterComponent
+    ApplyWriterComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,

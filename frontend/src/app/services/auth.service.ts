@@ -55,6 +55,15 @@ export class AuthService {
     return userId ? parseInt(userId, 10) : null;
   }
 
+  isAdmin(): boolean {
+    const token = this.getToken();
+    if (!token) {
+      return false;
+    }
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.roles.includes('ROLE_ADMIN');
+  }
+
   // Optionally, add a method to get the current user profile from backend
   // getProfile(): Observable<User> {
   //   return this.http.get<User>(`${this.apiUrl}/profile`, { headers: this.getHeader()! });

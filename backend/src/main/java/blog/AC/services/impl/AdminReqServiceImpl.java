@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,5 +24,22 @@ public class AdminReqServiceImpl implements AdminReqService {
         AdminReqEntity adminReqEntity = adminReqMapper.mapFrom(adminReqDto);
         adminReqEntity.setTimeStamp(LocalDateTime.now());
         adminReqRepository.save(adminReqEntity);
+    }
+
+    @Override
+    public List<AdminReqDto> getAll() {
+        return adminReqRepository.findAll().stream()
+                .map(adminReqMapper::mapTo)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void delete(String email) {
+        adminReqRepository.delete(adminReqRepository.findByEmail(email).get());
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        adminReqRepository.deleteById(id);
     }
 }

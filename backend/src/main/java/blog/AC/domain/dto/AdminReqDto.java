@@ -1,20 +1,20 @@
 package blog.AC.domain.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Data
 public class AdminReqDto {
-    private String firstName;
-    private String secondName;
-    private int currentYear;
-    private String currentStudyCycle;
-    private String email;
-    private String category;
-    private String coverLetter;
-    private LocalDateTime timeStamp;
+    Long id;
+    String firstName;
+    String secondName;
+    int currentYear;
+    String currentStudyCycle;
+    String email;
+    String category;
+    String coverLetter;
+    LocalDateTime timeStamp;
 }

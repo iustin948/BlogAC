@@ -1,8 +1,11 @@
 package blog.AC.controllers;
 
 import blog.AC.domain.dto.AdminReqDto;
+import blog.AC.domain.dto.UserDto;
 import blog.AC.domain.entities.UserEntity;
 import blog.AC.services.UserService;
+import blog.AC.services.AdminReqService;
+import blog.AC.services.StaffManagementService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -17,18 +24,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     UserService userService;
+    AdminReqService adminReqService;
+    StaffManagementService staffManagementService;
 
-    @PostMapping
-    public ResponseEntity<UserEntity> acceptReq(AdminReqDto dto)
+    @PostMapping("/approve/{id}")
+    public ResponseEntity<UserDto> acceptRequest(@PathVariable Long id)
     {
-            userService.changeRole(dto.getEmail(),"ADMIN");
-            return new ResponseEntity<>(userService.findByEmail(dto.getEmail()).get(), HttpStatus.OK);
+        UserDto user = staffManagementService.ConfirmStaff(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping
-    public String ret()
-    {
-        return "Hello";
+    @GetMapping("/requests")
+    public ResponseEntity<List<AdminReqDto>> getAllRequests() {
+        return new ResponseEntity<>(adminReqService.getAll(), HttpStatus.OK);
     }
 
+    @DeleteMapping("/reject/{id}")
+    public ResponseEntity<Void> rejectRequest(@PathVariable Long id) {
+        adminReqService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
